@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "Next TODO",
   applicationName: "Next TODO",
   description: "For the best todo ever",
-  icons: "https://github.com/user-attachments/assets/805af5d2-4709-4554-a13b-520e040ae11a",
+  icons: "https://github.com/user-attachments/assets/c8212f4d-1985-4fad-ab6b-599740e3fd42",
   authors: { name },
   generator: "Next.js",
   keywords: "todo, todo list",
