@@ -1,11 +1,11 @@
 "use server";
 
-import { signIn as naSignIn, signOut as naSignOut } from "./index";
+import { signIn as SignIn, signOut as SignOut } from "./index";
 
 export async function signIn() {
-  await naSignIn();
+  await SignIn();
 }
 
 export async function signOut() {
-  await naSignOut();
+  await SignOut();
 }

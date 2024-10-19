@@ -1,15 +1,15 @@
 "use client"
 
 import Link from 'next/link';
-import AuthButton from '@/app/AuthButton.server';
+import AuthButton from '@/components/AuthButton';
 
 const Header = () => {
   return (
     <header>
-      <nav className='flex row justify-between py-3 px-9'>
+      <nav className='flex items-center justify-between py-3 row px-9'>
         <Link
           href={'/'}
-          className='font-extrabold text-2xl text-positive'
+          className='text-2xl font-extrabold text-positive'
         >
           NEXT TODO
         </Link>

@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from 'react';
+
+import { SessionProvider } from "next-auth/react";
+import { BASE_PATH } from "@/auth";
 import localFont from "next/font/local";
 import Header from '@/components/Header';
 import "./globals.css";
@@ -33,12 +36,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${pretendard.variable} font-pretendard antialiased`}
-      >
-        <Header />
-        <main>{children}</main>
-      </body>
+      <SessionProvider basePath={BASE_PATH}>
+        <body
+          className={`${pretendard.variable} font-pretendard antialiased`}
+        >
+          <Header />
+          <main>{children}</main>
+        </body>
+      </SessionProvider>
+
     </html>
   );
 }
