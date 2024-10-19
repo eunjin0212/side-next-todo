@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from 'react';
 import localFont from "next/font/local";
+import Header from '@/components/Header';
 import "./globals.css";
 
 const pretendard = localFont({
@@ -20,9 +21,10 @@ export const metadata: Metadata = {
   generator: "Next.js",
   keywords: "todo, todo list",
   referrer: "no-referrer-when-downgrade",
-  themeColor: "#60a5fa",
   publisher: name,
 };
+
+
 
 export default function RootLayout({
   children,
@@ -34,7 +36,8 @@ export default function RootLayout({
       <body
         className={`${pretendard.variable} font-pretendard antialiased`}
       >
-        {children}
+        <Header />
+        <main>{children}</main>
       </body>
     </html>
   );
