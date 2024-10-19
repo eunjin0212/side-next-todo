@@ -1,31 +1,56 @@
 {
-  "name": "side-next-todo",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "test": "vitest"
-  },
-  "dependencies": {
-    "next": "14.2.15",
-    "react": "^18",
-    "react-dom": "^18"
-  },
-  "devDependencies": {
-    "@testing-library/react": "^16.0.1",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@vitejs/plugin-react": "^4.3.2",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.15",
-    "jsdom": "^25.0.1",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5",
-    "vitest": "^2.1.3"
-  }
+	"name": "side-next-todo",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"test": "vitest"
+	},
+	"dependencies": {
+		"next": "14.2.15",
+		"react": "^18",
+		"react-dom": "^18"
+	},
+	"eslintConfig": {
+		"extends": [
+			"next/core-web-vitals",
+			"airbnb",
+			"airbnb-typescript",
+			"plugin:prettier/recommended",
+			"prettier"
+		],
+		"parserOptions": {
+			"project": "./tsconfig.json"
+		},
+		"rules": {
+			"react/react-in-jsx-scope": "off"
+		}
+	},
+	"devDependencies": {
+		"@testing-library/react": "^16.0.1",
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"@typescript-eslint/eslint-plugin": "^7.18.0",
+		"@typescript-eslint/parser": "^7.18.0",
+		"@vitejs/plugin-react": "^4.3.2",
+		"eslint": "^8.57.1",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-config-airbnb-typescript": "^18.0.0",
+		"eslint-config-next": "14.2.15",
+		"eslint-plugin-import": "^2.31.0",
+		"eslint-plugin-jsx-a11y": "^6.10.0",
+		"eslint-plugin-prettier": "^5.2.1",
+		"eslint-plugin-react": "^7.37.1",
+		"eslint-plugin-react-hooks": "^4.6.2",
+		"jsdom": "^25.0.1",
+		"postcss": "^8",
+		"prettier": "^3.3.3",
+		"tailwindcss": "^3.4.1",
+		"typescript": "^5",
+		"vitest": "^2.1.3"
+	}
 }
