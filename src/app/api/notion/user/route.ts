@@ -40,6 +40,9 @@ export async function GET(req: NextRequest) {
   const email = searchParams.get('email') || '';
   const key = process.env.NOTION_USER_DB || '';
 
+  if (!email) {
+    return;
+  }
   try {
     const response = await notion.databases.query({
       database_id: key,
@@ -84,9 +87,32 @@ export async function POST(req: Request) {
   const dbType = dbName || 'user';
 
   try {
+    const body = await req.json();
     const response = await notion.pages.create({
       parent: { database_id: databaseName[dbType] },
-      properties: {},
+      properties: {
+        email: {
+          email: body.email,
+        },
+        name: {
+          rich_text: [
+            {
+              text: {
+                content: body.name,
+              },
+            },
+          ],
+        },
+        image: {
+          rich_text: [
+            {
+              text: {
+                content: body.image,
+              },
+            },
+          ],
+        },
+      },
     });
 
     return NextResponse.json(response);

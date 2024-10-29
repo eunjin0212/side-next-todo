@@ -2,8 +2,11 @@
 
 import Link from 'next/link';
 import AuthButton from '@/components/AuthButton';
+import { useSession } from 'next-auth/react';
 
 const Header = () => {
+  const session = useSession();
+
   return (
     <header>
       <nav className='flex items-center justify-between py-3 row px-9'>
@@ -13,7 +16,12 @@ const Header = () => {
         >
           NEXT TODO
         </Link>
-        <AuthButton />
+        <div>
+          <span className='mr-2'>
+            {session.data?.user?.name || ''}
+          </span>
+          <AuthButton />
+        </div>
       </nav>
     </header>
   );

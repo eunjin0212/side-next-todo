@@ -21,6 +21,7 @@ export const apiGet = async (url: string) => {
   return fetchApi(url, { method: 'GET' });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const apiPost = async (url: string, body: any) => {
   return fetchApi(url, {
     method: 'POST',
