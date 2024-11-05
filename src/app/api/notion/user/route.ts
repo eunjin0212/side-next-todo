@@ -7,7 +7,6 @@ interface User {
   email: string;
   name: string;
   image: string;
-  id: number;
 }
 
 interface UserResponse {
@@ -61,7 +60,6 @@ export async function GET(req: NextRequest) {
         email: item.properties.email.email,
         name: item.properties.name.rich_text[0].plain_text,
         image: item.properties.image.rich_text[0]?.plain_text,
-        id: +item.properties.id.title[0].plain_text,
       })
     )[0] : null;
 

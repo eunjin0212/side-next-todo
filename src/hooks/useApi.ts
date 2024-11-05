@@ -8,6 +8,7 @@ export const useGet = (url: string) => {
 
   useEffect(() => {
     if (!url) return
+
     const fetchData = async () => {
       try {
         const response = await apiGet(url);
@@ -31,8 +32,10 @@ export const usePost = (url: string, params: any) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     if (!url) return
+
     const fetchData = async () => {
       try {
         const response = await apiPost(url, params);

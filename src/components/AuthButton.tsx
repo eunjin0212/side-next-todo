@@ -1,9 +1,8 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { signIn, signOut } from '@/auth/helpers';
-import { useGet } from '@/hooks/useApi';
-import { apiPost } from '@/utils/api';
+import { apiGet, apiPost } from '@/utils/api';
 
 interface ButtonProps {
   label: string;
@@ -21,31 +20,25 @@ const Button = ({ label, onClick }: ButtonProps) => (
 
 export default function AuthButton() {
   const session = useSession();
-  const [shouldFetch, setShouldFetch] = useState(!!session.data?.user?.email);
-  const { data } = useGet(shouldFetch ? `notion/user?email=${session.data?.user?.email}` : '');
+
+  useEffect(() => {
+    if (!session.data?.user?.email) return
+
+    apiGet(`notion/user?email=${session.data?.user?.email}`).then((res) => {
+      if (res?.email) return
+
+      apiPost('notion/user', session.data?.user)
+    })
+  }, [session.data?.user?.email]);
 
   const handleAuth = async () => {
     if (!session.data?.user?.email) {
-      // login
-      await signIn();
-      setShouldFetch(true);
+      await signIn()
       return;
     }
-    // logout
-    await signOut().finally(() => {
-      setShouldFetch(false);
-    });
-    await signIn();
+
+    await signOut()
   };
-
-  useEffect(() => {
-    if (!data && shouldFetch) {
-      apiPost('notion/user', session.data?.user)
-      return
-    }
-
-    return () => { }
-  }, [shouldFetch]);
 
   return (
     <Button
