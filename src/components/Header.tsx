@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import AuthButton from '@/components/AuthButton';
-import { useSession } from 'next-auth/react';
+import { useSession } from "next-auth/react"
 
 const Header = () => {
-  const session = useSession();
+  const { data: session } = useSession()
 
   return (
     <header>
@@ -18,7 +18,7 @@ const Header = () => {
         </Link>
         <div>
           <span className='mr-2'>
-            {session.data?.user?.name || ''}
+            {session?.user?.name || ''}
           </span>
           <AuthButton />
         </div>

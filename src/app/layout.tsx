@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from 'react';
 
 import { SessionProvider } from "next-auth/react";
-import { BASE_PATH } from "@/auth";
+import { BASE_PATH } from "/auth";
 import localFont from "next/font/local";
 import Header from '@/components/Header';
 import "./globals.css";
@@ -26,8 +26,6 @@ export const metadata: Metadata = {
   referrer: "no-referrer-when-downgrade",
   publisher: name,
 };
-
-
 
 export default function RootLayout({
   children,

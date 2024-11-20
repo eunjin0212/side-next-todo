@@ -1,7 +1,8 @@
-'use client';
+"use client"
+
 import { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import { signIn, signOut } from '@/auth/helpers';
+import { signIn, signOut } from 'next-auth/react';
+import { useSession } from "next-auth/react"
 import { apiGet, apiPost } from '@/utils/api';
 
 interface ButtonProps {
@@ -18,22 +19,22 @@ const Button = ({ label, onClick }: ButtonProps) => (
   </button>
 );
 
-export default function AuthButton() {
-  const session = useSession();
+const AuthButton = () => {
+  const { data: session } = useSession()
 
   useEffect(() => {
-    if (!session.data?.user?.email) return
+    if (!session?.user?.email) return
 
-    apiGet(`notion/user?email=${session.data?.user?.email}`).then((res) => {
+    apiGet(`notion/user?email=${session?.user?.email}`).then((res) => {
       if (res?.email) return
 
-      apiPost('notion/user', session.data?.user)
+      apiPost('notion/user', session?.user)
     })
-  }, [session.data?.user?.email]);
+  }, [session?.user?.email]);
 
   const handleAuth = async () => {
-    if (!session.data?.user?.email) {
-      await signIn()
+    if (!session?.user?.email) {
+      await signIn('google', { redirectTo: '/' })
       return;
     }
 
@@ -43,7 +44,9 @@ export default function AuthButton() {
   return (
     <Button
       onClick={handleAuth}
-      label={session.data?.user?.email ? 'SIGN OUT' : 'SIGN IN'}
+      label={session?.user?.email ? 'SIGN OUT' : 'SIGN IN'}
     />
   );
 }
+
+export default AuthButton
