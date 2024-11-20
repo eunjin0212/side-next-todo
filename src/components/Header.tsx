@@ -1,11 +1,9 @@
-"use client"
-
 import Link from 'next/link';
 import AuthButton from '@/components/AuthButton';
-import { useSession } from "next-auth/react"
+import { auth } from "/auth"
 
-const Header = () => {
-  const { data: session } = useSession()
+const Header = async () => {
+  const session = await auth()
 
   return (
     <header>
