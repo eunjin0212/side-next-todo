@@ -19,11 +19,13 @@ To deploy this project run
 
 - Light/dark mode toggle
 - Save list data
-  - using Firebase or something...
+  - using Notion Database
 - Social login
   - google
+  - [refer to Auth.js](https://authjs.dev/)
 - Socket alert
-  - serverless! awesome! reference [this post](https://mxx-kor.github.io/blog/websocket-with-nextjs)
+  - serverless! awesome!
+  - [refer to this post](https://mxx-kor.github.io/blog/websocket-with-nextjs)
 - Responsive web
 
 ## Lessons Learned
