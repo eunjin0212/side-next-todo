@@ -14,7 +14,7 @@ const Checkbox = ({ value, checked, label, onChange }: CheckboxProps) => {
         className={[
           'inline-block relative rounded-sm mr-2 w-4 h-4 before:absolute before:w-full before:h-full before:border before:rounded-sm',
           checked
-            ? 'bg-positive before:border-positive'
+            ? 'bg-center bg-no-repeat bg-[url("/assets/checkbox_icon.svg")] bg-positive before:border-positive'
             : 'bg-white before:border-gray-500',
         ].join(' ')}
       ></span>
@@ -25,7 +25,7 @@ const Checkbox = ({ value, checked, label, onChange }: CheckboxProps) => {
         value={value}
         checked={checked}
       />
-      {label}
+      <span className={checked ? 'line-through' : ''}>{label}</span>
     </label>
   );
 };
