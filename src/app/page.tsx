@@ -1,13 +1,47 @@
 'use client';
 
-import { useState } from 'react';
-import Checkbox from '../components/ui/Checkbox';
+import { ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { apiPost } from '../utils/api';
+import Checkbox from '../components/ui/Checkbox';
 
 const Home = () => {
   const { data: session } = useSession();
 
-  const [checked, setChecked] = useState(true);
+  const [newTodo, setNewTodo] = useState('');
+  const [checkedList, setCheckedList] = useState<string[]>([]);
+  const [todoList, setTodoList] = useState([]);
+
+  const handleList = async () => {
+    try {
+      // const res = await apiPost('notion/list', session?.user?.id);
+      // setTodoList(res)
+    } catch (error) {
+      //
+    }
+  };
+
+  const handleNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewTodo(event.target.value);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      await apiPost('notion/list', {
+        parentId: session?.user?.id,
+        text: newTodo,
+      });
+      setNewTodo('')
+    } catch (error) {
+      //
+    }
+  };
+
+  useEffect(() => {
+    handleList();
+  }, [session]);
 
   if (!session?.user)
     return (
@@ -25,18 +59,36 @@ const Home = () => {
       <h2 className='text-2xl font-bold text-success pb-6'>
         ✅ Check your TODO
       </h2>
-      <ol className='border rounded-lg p-4 w-2/4'>
-        <li>
-          <Checkbox
-            label='todo'
-            value='todo'
-            checked={checked}
-            onChange={setChecked}
+      <form
+        onSubmit={handleSubmit}
+        className='mb-4 w-2/4'
+      >
+        <label id='text'>
+          <input
+            name='text'
+            placeholder='Enter your work!'
+            value={newTodo}
+            onChange={handleNewTodo}
+            className='border border-positive px-2 py-1 rounded w-full focus-within:outline-none'
           />
-        </li>
-        <li>todo</li>
-        <li>todo</li>
-        <li>todo</li>
+        </label>
+      </form>
+      <ol className='border rounded-lg p-4 w-2/4'>
+        {todoList.map((todo, idx) => (
+          <li key={`${todo}_${idx}`}>
+            <Checkbox
+              label={todo}
+              value={todo}
+              checked={checkedList.includes(todo)}
+              onChange={(val) =>
+                setCheckedList((prev) => {
+                  val ? prev.push(todo) : prev.filter((list) => list !== todo);
+                  return prev;
+                })
+              }
+            />
+          </li>
+        ))}
       </ol>
     </section>
   );
