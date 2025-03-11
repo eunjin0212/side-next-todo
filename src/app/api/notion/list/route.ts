@@ -1,48 +1,62 @@
 import { NextResponse } from 'next/server';
 import { Client } from '@notionhq/client';
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
-
-interface TodoList {
-  checked: boolean;
-  text: string;
-  createTime: string;
-}
-
 interface TodoListResponse {
   parent: {
     database_id: string;
   };
   properties: {
-    createdAt: {
-      create_time: string;
-    };
-    text: {
+    todo: {
       rich_text: { plain_text: string }[];
     };
     id: {
       title: { plain_text: string }[];
     };
-    checked: {
-      check: boolean;
+    status: {
+      id: string;
+      name: 'beforeStart' | 'inProgress' | 'done',
+      color: 'default' | 'blue' | 'green'
     };
   };
 }
 
+export interface TodoList {
+  status: {
+    label: TodoListResponse['properties']['status']['name'];
+    color: TodoListResponse['properties']['status']['color']
+  };
+  todo: string;
+}
+
+const notion = new Client({ auth: process.env.NOTION_API_KEY });
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const dbName = searchParams.get('parentId') || '';
+  const email = searchParams.get('email') || '';
+  const key = process.env.NOTION_LIST_DB || '';
+
+  if (!email) {
+    return;
+  }
 
   try {
     const response = await notion.databases.query({
-      database_id: dbName,
+      database_id: key,
+      filter: {
+        property: 'email',
+        email: {
+          contains: email,
+        },
+      },
     });
 
-    const handledData: TodoList[] | null = response.results.length
+    const handledData: TodoList[] = response.results.length
       ? (response.results as unknown as TodoListResponse[]).map((item) => ({
-        checked: item.properties.checked.check,
-        text: item.properties.text.rich_text[0].plain_text,
-        createTime: item.properties.createdAt.create_time,
+        status: {
+          label: item.properties.status.name,
+          color: item.properties.status.color,
+        },
+        todo: item.properties.todo.rich_text[0].plain_text,
       }))
       : [];
 

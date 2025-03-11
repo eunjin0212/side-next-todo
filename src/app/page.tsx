@@ -2,24 +2,16 @@
 
 import { ChangeEvent, type FormEvent, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { apiPost } from '../utils/api';
+import { apiGet, apiPost } from '../utils/api';
 import Checkbox from '../components/ui/Checkbox';
+import { TodoList } from './api/notion/list/route';
 
 const Home = () => {
   const { data: session } = useSession();
 
   const [newTodo, setNewTodo] = useState('');
   const [checkedList, setCheckedList] = useState<string[]>([]);
-  const [todoList, setTodoList] = useState([]);
-
-  const handleList = async () => {
-    try {
-      // const res = await apiPost('notion/list', session?.user?.id);
-      // setTodoList(res)
-    } catch (error) {
-      //
-    }
-  };
+  const [todoList, setTodoList] = useState<TodoList[]>([]);
 
   const handleNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
     setNewTodo(event.target.value);
@@ -40,7 +32,10 @@ const Home = () => {
   };
 
   useEffect(() => {
-    handleList();
+    apiGet(`notion/list?email=${session?.user?.email}`).then((res) => {
+      console.log(res)
+      setTodoList(res)
+    });
   }, [session]);
 
   if (!session?.user)
@@ -75,16 +70,15 @@ const Home = () => {
       </form>
       <ol className='border rounded-lg p-4 w-2/4'>
         {todoList.map((todo, idx) => (
-          <li key={`${todo}_${idx}`}>
+          <li key={`${todo}_${idx}`} className='flex items-center'>
             <Checkbox
-              label={todo}
-              value={todo}
-              checked={checkedList.includes(todo)}
+              {...todo}
               onChange={(val) =>
-                setCheckedList((prev) => {
-                  val ? prev.push(todo) : prev.filter((list) => list !== todo);
-                  return prev;
-                })
+                // setCheckedList((prev) => {
+                //   val ? prev.push(todo) : prev.filter((list) => list !== todo);
+                //   return prev;
+                // })
+                console.log(val)
               }
             />
           </li>

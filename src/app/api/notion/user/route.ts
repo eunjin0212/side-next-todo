@@ -46,6 +46,7 @@ export async function GET(req: NextRequest) {
   if (!email) {
     return;
   }
+
   try {
     const response = await notion.databases.query({
       database_id: key,
@@ -89,7 +90,6 @@ export async function POST(req: Request) {
 
   const databaseName = {
     user: process.env.NOTION_USER_DB || '',
-    list: process.env.NOTION_LIST_DB || '',
   } as Record<string, string>;
 
   const dbType = dbName || 'user';
